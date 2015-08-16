@@ -1,0 +1,9 @@
+#!/bin/sh
+SLACK_WEBHOOK_URL=$(git config --get hooks.slack.webhook-url)
+SLACK_USERNAME="Deploy Bot"
+
+REPO_PATH="$(dirname ${BASH_SOURCE[0]})/.."
+
+GIT_MESSAGE=$(git --git-dir ${REPO_PATH} show -l 1 -s)
+
+curl -X POST --data "payload={ \"username\": \"${SLACK_USERNAME}\", \"text\": \"${GIT_MESSAGE}\"}" ${SLACK_WEBHOOK_URL}
